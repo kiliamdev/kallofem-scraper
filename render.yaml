@@ -1,7 +1,0 @@
-services:
-  - type: cron
-    name: kallofem-scraper
-    env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: scrapy crawl products
-    schedule: "@daily"
