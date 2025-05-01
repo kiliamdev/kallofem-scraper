@@ -10,6 +10,12 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
+    import time
+    for _ in range(10):
+        if os.path.exists("scraper_log.txt"):
+            break
+        time.sleep(0.3)
+
     has_output = os.path.exists("output.json")
     log_output = None
     if os.path.exists("scraper_log.txt"):
