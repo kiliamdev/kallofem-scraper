@@ -1,6 +1,19 @@
-# 🧰 KÁLLÓ-Fém termék adatgyűjtés – Scrapy projekt
+# 🧰 KÁLLÓ-Fém termék scraper – Scrapy + Flask projekt
 
-Ez a projekt egy Scrapy-alapú webes adatgyűjtő (web scraper), amely a https://kallofem.hu/shop/group/keriteselemek oldalon található összes terméket gyűjti össze.
+## ✍️ Készítette
+   Gyarmati Bence
+   2025. május
+   Tesztfeladat – ASL Labs
+
+Ez a projekt egy Python alapú webes scraper, amely a [https://kallofem.hu/shop/group/keriteselemek](https://kallofem.hu/shop/group/keriteselemek) oldalon található összes terméket gyűjti le.  
+A begyűjtött adatokat JSON fájlba menti, és letölthetővé teszi egy weboldalon keresztül.
+
+## 🔗 Online kipróbálható itt:
+**https://kallofem-scraper.onrender.com**
+
+- Nyomd meg a „Termékek frissítése” gombot
+- Várd meg a logban, hogy lefusson a scraper
+- Ekkor megjelenik a letöltési link az `output.json` fájlhoz
 
 ## 🔍 Gyűjtött adatok
 
@@ -14,14 +27,14 @@ Minden termékről a következő információk kerülnek mentésre JSON formátu
 
 - Python 3
 - Scrapy
+- Flask
 - JSON export
-- Render deploy
+- Render (ingyenes deploy)
 
-## ▶️ Használat helyben (lokálisan)
+## 🖥️ Lokális futtatás
 
 1. Klónozd a repót:
-   ```bash
-   git clone https://github.com/felhasznalonev/kallofem-scraper.git
-   cd kallofem-scraper
 
-
+```bash
+git clone https://github.com/kiliamdev/kallofem-scraper.git
+cd kallofem-scraper

@@ -21,6 +21,9 @@ def run_scraper():
     log_output = result.stdout + "\n\n" + result.stderr
     has_output = os.path.exists("output.json")
 
+    if os.path.exists("output.json"):
+        os.remove("output.json")
+
     return render_template("index.html", log=log_output, has_output=has_output)
 
     
