@@ -3,24 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>KÁLLÓ-Fém scraper</title>
-  <script>
-    function runScraper() {
-      document.getElementById("log").innerHTML = "⏳ Kérem várjon, az adatok frissülnek...";
-      fetch("/scrape", {method: "POST"})
-        .then(response => response.text())
-        .then(html => {
-          document.open();
-          document.write(html);
-          document.close();
-        });
-    }
-  </script>
 </head>
 <body style="font-family: sans-serif; text-align: center; margin-top: 50px;">
   <h1>KÁLLÓ-Fém termék scraper</h1>
   <p>Ez az oldal a KÁLLÓ-Fém webshop kerítéselemeit gyűjti le.</p>
 
-    <button onclick="runScraper()" style="
+  <form action="/scrape" method="post">
+    <button type=submit style="
         padding: 12px 24px;
         font-size: 1.1rem;
         background-color: #00aaff;
@@ -33,7 +22,7 @@
             ">
             🔁 Termékek frissítése
     </button>
-
+  </form>
 
   {% if has_output and log %}
     <p><a href="/output" download>📥 Letöltés (output.json)</a></p>

@@ -30,6 +30,11 @@ def run_scraper():
     log_output = result.stdout + "\n\n" + result.stderr
     has_output = os.path.exists("output.json")
 
+    from datetime import datetime
+    
+    generate_time = None
+    if has_output:
+        generate_time = datetime.now().strftime("%Y.%m.%D %H:%M:%S")
 
     return render_template("index.html", log=log_output[-3000:], has_output=has_output)
 
