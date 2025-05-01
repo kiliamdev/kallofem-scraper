@@ -14,25 +14,40 @@ def home():
     log_output = None
     if os.path.exists("scraper_log.txt"):
         with open("scraper_log.txt", "r", encoding="utf-8") as f:
-            log_output = f.read()[-3000:]  # csak az utolsó 3000 karakter
+            log_output = f.read()[-3000:]
     return render_template("index.html", has_output=has_output, log=log_output)
 
 @app.route("/scrape", methods=["POST"])
 def run_scraper():
     import time
+    import run_spider
 
     if os.path.exists("output.json"):
         os.remove("output.json")
+    if os.path.exists("scrapper_log.txt"):
+        os.remove("scrapper_log.txt")
 
-    with open("scraper_log.txt", "w", encoding="utf-8") as log_file:
-        result = subprocess.run(["scrapy", "crawl", "products"], stdout=log_file, stderr=subprocess.STDOUT, text=True)
+    import sys
+    from io import StringIO
+    old_stdout = sys.stdout
+    mystdout = StringIO()
+    sys.stdout = mystdout
+
+    try:
+        run_spider.run()
+    except Exception as e:
+        mystdout.write(f"\nHiba: {e}\n")
+
+    sys.stdout = old_stdout
+
+    with open("scraper_log.txt", "w", encoding="utf-8") as f:
+        f.write(mystdout.getvalue())
     
     for _ in range(10):
         if os.path.exists("output.json"):
             break
         time.sleep(0.5)
 
-    has_output = os.path.exists("output.json") 
     return redirect("/")
 
     
