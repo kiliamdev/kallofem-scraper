@@ -15,16 +15,23 @@ def home():
 
 @app.route("/scrape", methods=["POST"])
 def run_scraper():
-    
-    result = subprocess.run(["scrapy", "crawl", "products"], capture_output=True, text=True)
-
-    log_output = result.stdout + "\n\n" + result.stderr
-    has_output = os.path.exists("output.json")
+    import time
 
     if os.path.exists("output.json"):
         os.remove("output.json")
 
-    return render_template("index.html", log=log_output, has_output=has_output)
+    result = subprocess.run(["scrapy", "crawl", "products"], capture_output=True, text=True)
+    
+    for _ in range(10):
+        if os.path.exists("output.json"):
+            break
+        time.sleep(0.5)
+
+    log_output = result.stdout + "\n\n" + result.stderr
+    has_output = os.path.exists("output.json")
+
+
+    return render_template("index.html", log=log_output[-3000:], has_output=has_output)
 
     
 @app.route("/output")
