@@ -4,6 +4,7 @@ from scrapy.utils.project import get_project_settings
 from kallofem_scraper.spiders.products_spider import ProductsSpider
 from twisted.internet.task import react
 import sys
+import subprocess
 
 def run_spider_main():
     runner = CrawlerRunner(get_project_settings())
@@ -13,7 +14,4 @@ def run_spider_main():
     reactor.run()  # blocking call
 
 def run():
-    try:
-        run_spider_main()
-    except RuntimeError:
-        pass
+    subprocess.run(["scrapy", "crawl", "products"], check=True)

@@ -8,7 +8,7 @@ ROBOTSTXT_OBEY = True
 FEEDS = {
     'output.json': {
         'format': 'json',
-        'encoding': 'utf-8',
+        'encoding': 'utf8',
         'indent': 2,
     }
 }

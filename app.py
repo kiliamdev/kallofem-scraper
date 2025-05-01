@@ -36,13 +36,13 @@ def run_scraper():
 
     run_spider.run()
 
-    # várunk picit, hogy biztos létrejöjjön a fájl
     for _ in range(10):
         if os.path.exists("output.json"):
             break
         time.sleep(0.3)
 
     return redirect("/")
+
     
 @app.route("/output")
 def get_output():
