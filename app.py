@@ -11,11 +11,18 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     has_output = os.path.exists("output.json")
-    log_output = None
-    if os.path.exists("scraper_log.txt"):
-        with open("scraper_log.txt", "r", encoding="utf-8") as f:
-            log_output = f.read()[-3000:]
-    return render_template("index.html", has_output=has_output, log=log_output)
+    output_preview = None
+
+    if has_output:
+        try:
+            import json
+            with open("output.json", "r", encoding="utf-8") as f:
+                data = json.load(f)
+                output_preview = data[:5]
+        except Exception as e:
+            output_preview = [{"hiba": str(e)}]
+
+    return render_template("index.html", has_output=has_output, output_preview=output_preview)
 
 @app.route("/scrape", methods=["POST"])
 def run_scraper():

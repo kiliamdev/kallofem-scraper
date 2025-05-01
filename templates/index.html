@@ -24,17 +24,17 @@
     </button>
   </form>
 
-  {% if has_output and log %}
+  {% if has_output %}
     <p><a href="/output" download>📥 Letöltés (output.json)</a></p>
   {% endif %}
 
-  <div id="log">
-    {% if log %}
-      <h2>Log:</h2>
-      <div style="
+  <div id="output_preview">
+    {% if output_preview %}
+      <h2>Output (rövid részlet)</h2>
+      <pre style="
       text-align: left;
       max-width: 800px;
-      margin: 20px auto;
+      margin: auto;
       background: #f8f8f8;
       padding: 20px;
       border-radius: 8px;
@@ -46,8 +46,8 @@
       white-space: pre-wrap;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     ">
-      {{ log }}
-    </div>
+      {{ output_preview | tojson(indent=2), ensure_ascii=False }}
+  </pre>
     {% endif %}
   </div>
 
