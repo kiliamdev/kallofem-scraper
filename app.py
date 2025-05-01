@@ -16,22 +16,22 @@ from flask import request
 @app.route("/")
 def home():
     show_output = request.args.get("show_output") == "1"
-    has_output = os.path.exists("output.json")
-    output_preview = []
+    output_preview = None
+    has_output = False  # alapból False-ra állítjuk
 
-    if show_output and has_output:
-        try:
-            with open("output.json", "r", encoding="utf-8") as f:
-                data = json.load(f)
-                if isinstance(data, list):
-                    output_preview = json.dumps(data[:5], ensure_ascii=False, indent=2)
-                else:
-                    raise ValueError("A JSON tartalom nem lista.")
-        except Exception as e:
-            output_preview = json.dumps([{"hiba": f"Hiba történt: {str(e)}"}], ensure_ascii=False, indent=2)
-            has_output = False  # Hiba esetén rejtjük a letöltési gombot.
+    if show_output:
+        if os.path.exists("output.json"):
+            try:
+                with open("output.json", "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    if isinstance(data, list) and len(data) > 0:
+                        output_preview = json.dumps(data[:5], ensure_ascii=False, indent=2)
+                        has_output = True  # Csak itt lesz True, ha minden rendben!
+            except:
+                has_output = False
 
     return render_template("index.html", has_output=has_output, output_preview=output_preview)
+
 
 @app.route("/scrape", methods=["POST"])
 def run_scraper():
