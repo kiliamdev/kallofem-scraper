@@ -4,38 +4,28 @@ from scrapy.utils.project import get_project_settings
 from kallofem_scraper.spiders.products_spider import ProductsSpider
 from io import StringIO
 import os
+import subprocess
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    has_output = os.path.exists("output.json")
+    return render_template("index.html", has_output=has_output)
 
-@app.route("/scrape")
+@app.route("/scrape", methods=["POST"])
 def run_scraper():
-    from io import StringIO
-    import sys
+    
+    result = subprocess.run(["scrapy", "crawl", "products"], capture_output=True, text=True)
 
-    old_stdout = sys.stdout
-    mystdout = StringIO()
-    sys.stdout = mystdout
+    log_output = result.stdout + "\n\n" + result.stderr
+    has_output = os.path.exists("output.json")
 
-    process = CrawlerProcess(get_project_settings())
-    process.crawl(ProductsSpider)
-    process.start()
+    return render_template("index.html", log=log_output, has_output=has_output)
 
-    sys.stdout = old_stdout
-    log_output = mystdout.getvalue()
-
-    return render_template("index.html", log=log_output)
-
+    
 @app.route("/output")
 def get_output():
-    try:
+    if os.path.exists("output.json"):
         return send_file("output.json", as_attachment=True)
-    except FileNotFoundError:
-        return jsonify({"error": "A fajl meg nem letezik. Futtasd elobb a /scrape vegpontot."}), 404
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    return "output.json nem talalhato", 404
