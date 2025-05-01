@@ -46,15 +46,17 @@
     ">
 
       <pre>
-        {{ output_preview | tojson(indent=2) }}
+        {{ output_preview | tojson(indent=2, ensure_ascii=False) }}
       </pre>
         {% endif %}
+
+
+
+  </div>
 
         {% if has_output %}
           <p><a href="/output" download>📥 Letöltés (output.json)</a></p>
         {% endif %}
-
-  </div>
 
   <footer style="margin-top: 50px; font-size: 0.9rem; color: gray;">
     Készítette: Gyarmati Bence
