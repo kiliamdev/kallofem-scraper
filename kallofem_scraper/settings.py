@@ -5,7 +5,10 @@ NEWSPIDER_MODULE = "kallofem_scraper.spiders"
 
 ROBOTSTXT_OBEY = True
 
-FEED_FORMAT = "json"
-FEED_URI = "output.json"
-FEED_EXPORT_INDENT = 2
-FEED_EXPORT_ENCODING = "utf-8"
+FEEDS = {
+    'output.json': {
+        'format': 'json',
+        'encoding': 'utf-8',
+        'indent': 2,
+    }
+}
