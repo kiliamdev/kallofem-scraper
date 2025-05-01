@@ -17,7 +17,7 @@ from flask import request
 def home():
     show_output = request.args.get("show_output") == "1"
     has_output = os.path.exists("output.json")
-    output_preview = None
+    output_preview = []
 
     if show_output and has_output:
         try:
