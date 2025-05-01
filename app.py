@@ -9,12 +9,24 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     return render_template("index.html")
+
 @app.route("/scrape")
 def run_scraper():
+    from io import StringIO
+    import sys
+
+    old_stdout = sys.stdout
+    sys.stdout = mystdout = StringIO
+
     process = CrawlerProcess(get_project_settings())
     process.crawl(ProductsSpider)
     process.start()
-    return jsonify({"message": "Scraper lefutott, az output.json fajl frissult."})
+
+    sys.stdout = old_stdout
+
+    log_output = mystdout.getvalue()
+
+    return render_template("index.html", log=log_output)
 
 @app.route("/output")
 def get_output():

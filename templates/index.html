@@ -11,8 +11,20 @@
 
     <a href="/scrape">
         <button style="font-size: 1.2rem; padding: 10px 20px;">🔁 Termékek frissítése</button>
+            {% if log %}
+                <h2>Log:</h2>
+                    <pre style="text-align: left; max-width: 800px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); overflow-x: auto;">
+                        {{ log }}
+                    </pre>
+            {% endif %}
     </a>
+
 
     <p><a href="/output">📥 Letöltés (output.json)</a></p>
 </body>
+
+<footer style="margin-top: 50px; font-size: 0.9rem; color: gray;">
+    Készítette: Gyarmati Bemce
+</footer>
+
 </html>
