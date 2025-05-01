@@ -10,12 +10,6 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    import time
-    for _ in range(10):
-        if os.path.exists("scraper_log.txt"):
-            break
-        time.sleep(0.3)
-
     has_output = os.path.exists("output.json")
     log_output = None
     if os.path.exists("scraper_log.txt"):
@@ -27,14 +21,12 @@ def home():
 def run_scraper():
     import time
     import run_spider
+    import sys
+    from io import StringIO
 
     if os.path.exists("output.json"):
         os.remove("output.json")
-    if os.path.exists("scrapper_log.txt"):
-        os.remove("scrapper_log.txt")
 
-    import sys
-    from io import StringIO
     old_stdout = sys.stdout
     mystdout = StringIO()
     sys.stdout = mystdout
@@ -42,12 +34,13 @@ def run_scraper():
     try:
         run_spider.run()
     except Exception as e:
-        mystdout.write(f"\nHiba: {e}\n")
+        print(f"\nHiba: {e}\n")
 
     sys.stdout = old_stdout
 
+    log_output = mystdout.getvalue()
     with open("scraper_log.txt", "w", encoding="utf-8") as f:
-        f.write(mystdout.getvalue())
+        f.write(log_output())
     
     for _ in range(10):
         if os.path.exists("output.json"):
