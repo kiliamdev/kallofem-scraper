@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, send_file
+from flask import Flask, jsonify, send_file, render_template
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 from kallofem_scraper.spiders.products_spider import ProductsSpider
@@ -8,8 +8,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Kálló-Fém scraper API működik!"
-
+    return render_template("index.html")
 @app.route("/scrape")
 def run_scraper():
     process = CrawlerProcess(get_project_settings())
