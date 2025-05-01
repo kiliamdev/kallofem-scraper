@@ -1,0 +1,8 @@
+Parancsok:
+
+Program futattása: scrapy crawl products
+
+Projekt indítása: scrapy startproject kallofem_scraper
+
+Próba futtatás: scrapy list
+
