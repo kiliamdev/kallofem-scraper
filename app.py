@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, send_file, render_template, redirect
+from flask import Flask, jsonify, send_file, render_template, redirect, request
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 from kallofem_scraper.spiders.products_spider import ProductsSpider
@@ -8,22 +8,26 @@ import subprocess
 
 app = Flask(__name__)
 
+from flask import request
+
 @app.route("/")
 def home():
+    show_output = request.args.get("show_output") == "1"
     has_output = os.path.exists("output.json")
     output_preview = []
 
-    if has_output:
+    if show_output and has_output:
         try:
             import json
             with open("output.json", "r", encoding="utf-8") as f:
                 data = json.load(f)
-                if isinstance(data,list):
+                if isinstance(data, list):
                     output_preview = data[:5]
         except Exception as e:
-            output_preview = [{"hiba": f"hiba történt a JSON olvasása során:{str(e)}"}]
+            output_preview = [{"hiba": f"Hiba történt a JSON olvasása során: {str(e)}"}]
 
-    return render_template("index.html", has_output=has_output, output_preview=output_preview)
+    return render_template("index.html", has_output=has_output if show_output else False, output_preview=output_preview)
+
 
 @app.route("/scrape", methods=["POST"])
 def run_scraper():
@@ -41,7 +45,7 @@ def run_scraper():
             break
         time.sleep(0.3)
 
-    return redirect("/")
+    return redirect("/?show_output=1")
 
     
 @app.route("/output")

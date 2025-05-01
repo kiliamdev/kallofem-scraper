@@ -24,9 +24,7 @@
     </button>
   </form>
 
-  {% if has_output %}
-    <p><a href="/output" download>📥 Letöltés (output.json)</a></p>
-  {% endif %}
+
 
   <div id="output_preview">
     {% if output_preview %}
@@ -46,9 +44,16 @@
       white-space: pre-wrap;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     ">
-      {{ output_preview | tojson(indent=2) }}
-  </pre>
-    {% endif %}
+
+      <pre>
+        {{ output_preview | tojson(indent=2) }}
+      </pre>
+        {% endif %}
+
+        {% if has_output %}
+          <p><a href="/output" download>📥 Letöltés (output.json)</a></p>
+        {% endif %}
+
   </div>
 
   <footer style="margin-top: 50px; font-size: 0.9rem; color: gray;">
