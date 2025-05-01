@@ -20,9 +20,20 @@
   <h1>KÁLLÓ-Fém termék scraper</h1>
   <p>Ez az oldal a KÁLLÓ-Fém webshop kerítéselemeit gyűjti le.</p>
 
-  <button onclick="runScraper()" style="padding: 10px 20px; font-size: 1rem;">
-    🔁 Termékek frissítése
-  </button>
+    <button onclick="runScraper()" style="
+        padding: 12px 24px;
+        font-size: 1.1rem;
+        background-color: #00aaff;
+        border: none;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-bottom: 20px;
+        transition: background 0.3s ease;
+            ">
+            🔁 Termékek frissítése
+    </button>
+
 
   {% if has_output %}
     <p><a href="/output" download>📥 Letöltés (output.json)</a></p>
@@ -31,9 +42,23 @@
   <div id="log">
     {% if log %}
       <h2>Log:</h2>
-      <pre style="text-align: left; max-width: 800px; margin: auto; background: #f8f8f8; padding: 20px; border-radius: 8px; overflow-x: auto;">
-{{ log }}
-      </pre>
+      <div style="
+      text-align: left;
+      max-width: 800px;
+      margin: 20px auto;
+      background: #f8f8f8;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-y: auto;
+      overflow-x: auto;
+      max-height: 400px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      white-space: pre-wrap;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    ">
+      {{ log }}
+    </div>
     {% endif %}
   </div>
 
