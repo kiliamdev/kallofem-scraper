@@ -15,7 +15,14 @@ def run_scraper():
     process = CrawlerProcess(get_project_settings())
     process.crawl(ProductsSpider)
     process.start()
-    return jsonify({"message": "Scraper lefutott, az output.json fájl frissült."})
+    return jsonify({"message": "Scraper lefutott, az output.json fajl frissult."})
+
+@app.route("/output")
+def get_output():
+    try:
+        return send_file("output.json", as_attachment=True)
+    except FileNotFoundError:
+        return jsonify({"error": "A fajl meg nem letezik. Futtasd elobb a /scrape vegpontot."}), 404
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
