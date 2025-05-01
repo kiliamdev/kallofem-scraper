@@ -5,6 +5,9 @@ from kallofem_scraper.spiders.products_spider import ProductsSpider
 from io import StringIO
 import os
 import subprocess
+import json
+import run_spider
+import time
 
 app = Flask(__name__)
 
@@ -14,27 +17,24 @@ from flask import request
 def home():
     show_output = request.args.get("show_output") == "1"
     has_output = os.path.exists("output.json")
-    output_preview = []
+    output_preview = None
 
     if show_output and has_output:
         try:
-            import json
             with open("output.json", "r", encoding="utf-8") as f:
                 data = json.load(f)
                 if isinstance(data, list):
-                    output_preview = data[:5]
+                    output_preview = json.dumps(data[:5], ensure_ascii=False, indent=2)
+                else:
+                    raise ValueError("A JSON tartalom nem lista.")
         except Exception as e:
-            output_preview = [{"hiba": f"Hiba történt a JSON olvasása során: {str(e)}"}]
+            output_preview = json.dumps([{"hiba": f"Hiba történt: {str(e)}"}], ensure_ascii=False, indent=2)
+            has_output = False  # Hiba esetén rejtjük a letöltési gombot.
 
-    return render_template("index.html", has_output=has_output if show_output else False, output_preview=output_preview)
-
+    return render_template("index.html", has_output=has_output, output_preview=output_preview)
 
 @app.route("/scrape", methods=["POST"])
 def run_scraper():
-    import run_spider
-    import os
-    import time
-
     if os.path.exists("output.json"):
         os.remove("output.json")
 
@@ -47,12 +47,11 @@ def run_scraper():
 
     return redirect("/?show_output=1")
 
-    
 @app.route("/output")
 def get_output():
     if os.path.exists("output.json"):
         return send_file("output.json", as_attachment=True)
-    return "output.json nem talalhato", 404
+    return "output.json nem található", 404
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
