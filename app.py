@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_file
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 from kallofem_scraper.spiders.products_spider import ProductsSpider
