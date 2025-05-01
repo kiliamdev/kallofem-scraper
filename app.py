@@ -2,6 +2,7 @@ from flask import Flask, jsonify, send_file, render_template
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 from kallofem_scraper.spiders.products_spider import ProductsSpider
+from io import StringIO
 import os
 
 app = Flask(__name__)
@@ -16,14 +17,14 @@ def run_scraper():
     import sys
 
     old_stdout = sys.stdout
-    sys.stdout = mystdout = StringIO
+    mystdout = StringIO()
+    sys.stdout = mystdout
 
     process = CrawlerProcess(get_project_settings())
     process.crawl(ProductsSpider)
     process.start()
 
     sys.stdout = old_stdout
-
     log_output = mystdout.getvalue()
 
     return render_template("index.html", log=log_output)
