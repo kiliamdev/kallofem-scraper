@@ -11,34 +11,31 @@ import time
 
 app = Flask(__name__)
 
-
+from datetime import datetime
 
 @app.route("/")
 def home():
-    from flask import request
-    from datetime import datetime
-
     show_output = request.args.get("show_output") == "1"
     output_preview = None
-    has_output = False  # alapból False-ra állítjuk
-
+    has_output = False
     last_updated = None
-    if has_output:
-        ts = os.path.getatime("output.json")
-        last_updated = datetime.fromtimestamp(ts).strftime("%Y.%m.%d %H:%M")
 
-    if show_output:
-        if os.path.exists("output.json"):
-            try:
+    if os.path.exists("output.json"):
+        try:
+            ts = os.path.getmtime("output.json")
+            last_updated = datetime.fromtimestamp(ts).strftime("%Y.%m.%d %H:%M")
+
+            if show_output:
                 with open("output.json", "r", encoding="utf-8") as f:
                     data = json.load(f)
                     if isinstance(data, list) and len(data) > 0:
                         output_preview = json.dumps(data[:5], ensure_ascii=False, indent=2)
-                        has_output = True  # Csak itt lesz True, ha minden rendben!
-            except:
-                has_output = False
+                        has_output = True
+        except Exception as e:
+            print("Hiba az output.json feldolgozásakor:", e)
 
     return render_template("index.html", has_output=has_output, output_preview=output_preview, last_updated=last_updated)
+
 
 
 @app.route("/scrape", methods=["POST"])
