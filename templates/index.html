@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>KÁLLÓ-Fém scraper</title>
-  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body style="font-family: sans-serif; text-align: center; margin-top: 50px;">
   <h1>KÁLLÓ-Fém termék scraper</h1>
   <p>Ez az oldal a KÁLLÓ-Fém webshop kerítéselemeit gyűjti le.</p>
 
   <form action="/scrape" method="post" onsubmit="showLoader()">
-    <button id="refreshBtn" type=submit style="
+    <button id="refreshBtn" type="submit" style="
         padding: 12px 24px;
         font-size: 1.1rem;
         background-color: #00aaff;
@@ -20,62 +19,59 @@
         cursor: pointer;
         margin-bottom: 20px;
         transition: background 0.3s ease;
-            "
-            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-            >
-            🔁 Termékek frissítése
+    ">
+      🔁 Termékek frissítése
     </button>
   </form>
 
-    <div id="loading" class="hidden mt-4 text-blue-600 animate-pulse">
-      Kérem várjon, frissítés folyamatban...
-    </div>
-
-    <script>
-      function showLoader() {
-          document.getElementById("refreshBtn").disabled = true;
-          document.getElementById("refreshBtn").innerText = "Frissítés...";
-          document.getElementById("loading").classList.remove("hidden");
-      }
-      </script>
+  <script>
+    function showLoader() {
+      const btn = document.getElementById("refreshBtn");
+      btn.disabled = true;
+      btn.innerText = "Frissítés...";
+    }
+  </script>
 
   {% if last_updated %}
-    <p>Utolsó frissítés: {{ last_updated }}</p>
+    <p style="margin-top: 10px;">Utolsó frissítés: {{ last_updated }}</p>
   {% endif %}
-
-
 
   <div id="output_preview">
     {% if output_preview %}
-      <h2>Output (rövid részlet)</h2>
+      <h2 style="margin-top: 30px;">Output (rövid részlet)</h2>
       <pre style="
-      text-align: left;
-      max-width: 800px;
-      margin: auto;
-      background: #f8f8f8;
-      padding: 20px;
-      border-radius: 8px;
-      overflow-y: auto;
-      overflow-x: auto;
-      max-height: 400px;
-      font-family: monospace;
-      font-size: 0.85rem;
-      white-space: pre-wrap;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    ">
-
-      <pre>
+        text-align: left;
+        max-width: 800px;
+        margin: auto;
+        background: #f8f8f8;
+        padding: 20px;
+        border-radius: 8px;
+        overflow-y: auto;
+        overflow-x: auto;
+        max-height: 400px;
+        font-family: monospace;
+        font-size: 0.85rem;
+        white-space: pre-wrap;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      ">
         {{ output_preview }}
       </pre>
-        {% endif %}
-
-
-
+    {% endif %}
   </div>
 
-        {% if has_output %}
-          <p><a href="/output" download>📥 Letöltés (output.json)</a></p>
-        {% endif %}
+  {% if has_output %}
+    <p style="margin-top: 20px;">
+      <a href="/output" download style="
+          display: inline-block;
+          padding: 10px 20px;
+          background-color: #4CAF50;
+          color: white;
+          text-decoration: none;
+          border-radius: 6px;
+          font-size: 0.95rem;
+      ">📥 Letöltés (output.json)</a>
+    </p>
+  {% endif %}
 
   <footer style="margin-top: 50px; font-size: 0.9rem; color: gray;">
     Készítette: Gyarmati Bence
