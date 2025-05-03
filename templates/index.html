@@ -8,8 +8,8 @@
   <h1>KÁLLÓ-Fém termék scraper</h1>
   <p>Ez az oldal a KÁLLÓ-Fém webshop kerítéselemeit gyűjti le.</p>
 
-  <form action="/scrape" method="post">
-    <button type=submit style="
+  <form action="/scrape" method="post" onsubmit="showLoader()">
+    <button id="refreshBtn" type=submit style="
         padding: 12px 24px;
         font-size: 1.1rem;
         background-color: #00aaff;
@@ -19,10 +19,24 @@
         cursor: pointer;
         margin-bottom: 20px;
         transition: background 0.3s ease;
-            ">
+            "
+            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            >
             🔁 Termékek frissítése
     </button>
   </form>
+
+    <div id="loading" class="hidden mt-4 text-blue-600 animate-pulse">
+      Kérem várjon, frissítés folyamatban...
+    </div>
+
+    <script>
+      function showLoader() {
+          document.getElementById("refreshBtn").disabled = true;
+          document.getElementById("refreshBtn").innerText = "Frissítés...";
+          document.getElementById("loading").classList.remove("hidden");
+      }
+      </script>
 
   {% if last_updated %}
     <p>Utolsó frissítés: {{ last_updated }}</p>
