@@ -18,14 +18,14 @@ def home():
     from flask import request
     from datetime import datetime
 
+    show_output = request.args.get("show_output") == "1"
+    output_preview = None
+    has_output = False  # alapból False-ra állítjuk
+
     last_updated = None
     if has_output:
         ts = os.path.getatime("output.json")
         last_updated = datetime.fromtimestamp(ts).strftime("%Y.%m.%d %H:%M")
-
-    show_output = request.args.get("show_output") == "1"
-    output_preview = None
-    has_output = False  # alapból False-ra állítjuk
 
     if show_output:
         if os.path.exists("output.json"):
