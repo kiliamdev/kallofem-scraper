@@ -12,6 +12,7 @@ import time
 app = Flask(__name__)
 
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 @app.route("/")
 def home():
@@ -23,7 +24,7 @@ def home():
     if os.path.exists("output.json"):
         try:
             ts = os.path.getmtime("output.json")
-            last_updated = datetime.fromtimestamp(ts).strftime("%Y.%m.%d %H:%M")
+            last_updated = datetime.fromtimestamp(ts, tz=ZoneInfo("Europe/Budapest")).strftime("%Y.%m.%d %H:%M")
 
             if show_output:
                 with open("output.json", "r", encoding="utf-8") as f:
