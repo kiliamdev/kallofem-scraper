@@ -11,10 +11,18 @@ import time
 
 app = Flask(__name__)
 
-from flask import request
+
 
 @app.route("/")
 def home():
+    from flask import request
+    from datetime import datetime
+
+    last_updated = None
+    if has_output:
+        ts = os.path.getatime("output.json")
+        last_updated = datetime.fromtimestamp(ts).strftime("%Y.%m.%d %H:%M")
+
     show_output = request.args.get("show_output") == "1"
     output_preview = None
     has_output = False  # alapból False-ra állítjuk
@@ -30,7 +38,7 @@ def home():
             except:
                 has_output = False
 
-    return render_template("index.html", has_output=has_output, output_preview=output_preview)
+    return render_template("index.html", has_output=has_output, output_preview=output_preview, last_updated=last_updated)
 
 
 @app.route("/scrape", methods=["POST"])

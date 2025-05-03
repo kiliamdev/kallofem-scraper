@@ -24,6 +24,10 @@
     </button>
   </form>
 
+  {% if last_updated %}
+    <p>Utolsó frissítés: {{ last_updated }}</p>
+  {% endif %}
+
 
 
   <div id="output_preview">
