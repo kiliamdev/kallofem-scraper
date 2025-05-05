@@ -12,8 +12,8 @@ A begyűjtött adatokat JSON fájlba menti, és letölthetővé teszi egy webold
 **https://kallofem-scraper.onrender.com**
 
 - Nyomd meg a „Termékek frissítése” gombot
-- Várd meg a logban, hogy lefusson a scraper
-- Ekkor megjelenik a letöltési link az `output.json` fájlhoz
+- Várd meg, hogy lefusson a scraper (kb. 1 perc)
+- Amint lefutott a scraper megjelenik egy rövid részlet és a letöltési link az `output.json` fájlhoz.
 
 ## 🔍 Gyűjtött adatok
 
